@@ -4,7 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 
-db, collection = db_conexion.establecer_conexion()
+db, collection = db_conexion.establecer_conexion('app')
 # Muestra los documentos de la base de datos en consola
 """for documento in collection.find():
     print(documento)"""

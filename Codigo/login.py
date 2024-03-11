@@ -105,6 +105,11 @@ def homePage():
 
 def crear_registro():
     db, collection = db_conexion.establecer_conexion('app')
+    ingresarDelito = Toplevel()
+    ingresarDelito.title('Crear Registro')
+    ingresarDelito.geometry('925x500+300+200')
+    ingresarDelito.configure(bg="#EBEBEB")
+    ingresarDelito.resizable(True, True)
 
     # Función para mostrar los datos en el Treeview
     def mostrarDatos():
@@ -145,9 +150,6 @@ def crear_registro():
             mostrarDatos()
         else:
             messagebox.showerror("Error", "Por favor, complete todos los campos.")
-
-    ingresarDelito = Tk()
-    ingresarDelito.title("Crear Registro")
 
     #Treeview para mostrar los datos
     data = ttk.Treeview(ingresarDelito, columns=("ID", "Delito", "Fecha", "Victima", "Edad", "Provincia"))
@@ -196,8 +198,13 @@ def crear_registro():
     crear = Button(ingresarDelito, text="Crear Registro", command=crearRegistro, bg="black", fg="white")
     crear.grid(row=8, columnspan=2)
 
+    regresar = Button(ingresarDelito,text="Regresar a Inicio",command=homePage,bg="black", fg="white")
+    regresar.grid(row=9, columnspan=2)
+
     for column in data["columns"]:
         data.column(column, anchor="center")
+
+
 
     mostrarDatos()
     ingresarDelito.mainloop()

@@ -3,24 +3,23 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-
+# Establecer la conexión con la base de datos
 db, collection = db_conexion.establecer_conexion('app')
-# Muestra los documentos de la base de datos en consola
-"""for documento in collection.find():
-    print(documento)"""
 
+# Función para mostrar los datos en el Treeview
 def mostrarDatos():
     for documento in collection.find():
         data.insert('', 0, text=documento["_id"], values=(documento["Delito"], documento["Fecha"], documento["Victima"], documento["Edad"], documento["Provincia"]))
 
+# Función para crear un nuevo registro
 def crearRegistro():
     # Obtener los valores de las entradas de texto
     id_delito = _id.get()
-    delito_value = delito.get()
+    delito_value = delito_combobox.get()
     fecha_value = fecha.get()
-    victima_value = victima.get()
-    edad_value = edad.get()
-    provincia_value = provincia.get()
+    victima_value = victima_combobox.get()
+    edad_value = edad_combobox.get()
+    provincia_value = provincia_combobox.get()
 
     # Verificar que todos los campos estén llenos
     if len(id_delito) != 0 and len(delito_value) != 0 and len(fecha_value) != 0 and len(victima_value) != 0 and len(edad_value) != 0 and len(provincia_value) != 0:
@@ -39,21 +38,19 @@ def crearRegistro():
        
         collection.insert_one(nuevo_documento)
         
-        
+        # Limpiar los campos después de agregar el nuevo registro
         _id.delete(0, END)
-        delito.delete(0, END)
         fecha.delete(0, END)
-        victima.delete(0, END)
-        edad.delete(0, END)
-        provincia.delete(0, END)
-
         
         mostrarDatos()
     else:
         messagebox.showerror("Error", "Por favor, complete todos los campos.")
 
-root = Tk()
-data = ttk.Treeview(root, columns=("ID", "Delito", "Fecha", "Victima", "Edad", "Provincia"))
+ingresarDelito = Tk()
+ingresarDelito.title("Crear Registro")
+
+#Treeview para mostrar los datos
+data = ttk.Treeview(ingresarDelito, columns=("ID", "Delito", "Fecha", "Victima", "Edad", "Provincia"))
 data.grid(row=1, column=0, columnspan=2)
 data.heading("#0", text="ID")
 data.heading("#1", text="Delito")
@@ -62,41 +59,45 @@ data.heading("#3", text="Victima")
 data.heading("#4", text="Edad")
 data.heading("#5", text="Provincia")
 
+#ID del delito
+Label(ingresarDelito, text="ID de delito").grid(row=2, column=0)
+_id = Entry(ingresarDelito)
+_id.grid(row=2, column=1)
 
-
-#Nombre
-Label(root,text="ID de delito").grid(row=2,column=0)
-_id=Entry(root)
-_id.grid(row=2,column=1)
 #Delito
-Label(root,text="Delito").grid(row=3,column=0)
-delito=Entry(root)
-delito.grid(row=3,column=1)
-#Fecha
-Label(root,text="Fecha").grid(row=4,column=0)
-fecha=Entry(root)
-fecha.grid(row=4,column=1)
-#Victima
-Label(root,text="Victima").grid(row=5,column=0)
-victima=Entry(root)
-victima.grid(row=5,column=1)
-#Edad
-Label(root,text="Edad").grid(row=6,column=0)
-edad=Entry(root)
-edad.grid(row=6,column=1)
-#Provincia
-Label(root,text="Provincia").grid(row=7,column=0)
-provincia=Entry(root)
-provincia.grid(row=7,column=1)
-#Boton crear
-crear=Button(root,text="Crear Registro",command=crearRegistro,bg="black",fg="white")
-crear.grid(row=8,columnspan=2)
+Label(ingresarDelito, text="Delito").grid(row=3, column=0)
+delitos = ["Asalto", "Homicidio", "Hurto", "Robo", "Robo de vehiculo", "Tacha de vehiculo"]  # Lista de opciones para el dropdown
+delito_combobox = ttk.Combobox(ingresarDelito, values=delitos)
+delito_combobox.grid(row=3, column=1)
 
+#Fecha
+Label(ingresarDelito, text="Fecha").grid(row=4, column=0)
+fecha = Entry(ingresarDelito)
+fecha.grid(row=4, column=1)
+
+#Victima
+Label(ingresarDelito, text="Victima").grid(row=5, column=0)
+victimas = ["Edificacion", "Otros", "Persona", "Vehiculo", "Vivienda"]  # Lista de opciones para el dropdown
+victima_combobox = ttk.Combobox(ingresarDelito, values=victimas)
+victima_combobox.grid(row=5, column=1)
+
+#Edad
+Label(ingresarDelito, text="Edad").grid(row=6, column=0)
+edades = ["Adulto Mayor", "Desconocido", "Mayor de edad", "Menor de edad"]  # Lista de opciones para el dropdown
+edad_combobox = ttk.Combobox(ingresarDelito, values=edades)
+edad_combobox.grid(row=6, column=1)
+
+#Provincia
+Label(ingresarDelito, text="Provincia").grid(row=7, column=0)
+provincias = ["San Jose", "Alajuela", "Cartago", "Heredia", "Guanacaste", "Puntarenas", "Limon"]  # Lista de opciones para el dropdown
+provincia_combobox = ttk.Combobox(ingresarDelito, values=provincias)
+provincia_combobox.grid(row=7, column=1)
+
+crear = Button(ingresarDelito, text="Crear Registro", command=crearRegistro, bg="black", fg="white")
+crear.grid(row=8, columnspan=2)
 
 for column in data["columns"]:
     data.column(column, anchor="center")
 
-
-
 mostrarDatos()
-root.mainloop()
+ingresarDelito.mainloop()

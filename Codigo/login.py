@@ -73,9 +73,8 @@ def inicio_sesion():
     code.bind('<FocusOut>', on_leave)
 
     Frame(frame, width=295,height=2,bg='black').place(x=25,y=177)
-    ingresar = Button(homePage, text='INGRESAR', command=homePage.destroy, bg="black", fg="white", bd=2, relief="groove")
-    ingresar.pack()
 
+    Button(frame, width=39,pady=7,text='INGRESAR',bg='black',fg='#EBEBEB',border=0,command=homePage).place(x=35,y=204)
 
 
     root.mainloop()

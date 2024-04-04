@@ -74,22 +74,22 @@ def inicio_sesion():
 
     Frame(frame, width=295,height=2,bg='black').place(x=25,y=177)
 
-    Button(frame, width=39,pady=7,text='INGRESAR',bg='black',fg='#EBEBEB',border=0,command=homePage).place(x=35,y=204)
+    Button(frame, width=39,pady=7,text='INGRESAR',bg='black',fg='#EBEBEB',border=0,command=signin).place(x=35,y=204)
 
 
     root.mainloop()
 
 def homePage():
-    home = Tk()
+    home = Toplevel()
     home.title('Home Page')
     home.geometry('925x500+300+200')
     home.configure(bg="#EBEBEB")
     home.resizable(False, False)
 
-    #img = PhotoImage(file='Codigo/img/logo.png')
-    #img = img.subsample(2)
-    #label = Label(home, image=img, bg='#EBEBEB')
-    #label.place(relx=0.3, rely=0.5, anchor=CENTER)
+    img = PhotoImage(file='Codigo/img/logo.png')
+    img = img.subsample(2)
+    label = Label(home, image=img, bg='#EBEBEB')
+    label.place(relx=0.3, rely=0.5, anchor=CENTER)
 
     frame = Frame(home, width=350, height=350, bg="#EBEBEB")
     frame.place(x=480, y=70)
